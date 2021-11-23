@@ -1,12 +1,16 @@
 const Atendimento = require('./../models/atendimentos');
 module.exports = app => {
   app.get('/atendimentos', (req, res) => {
-    res.send('Você está na rota de atendimentos');
+    Atendimento.lista(res);
+  })
+
+  app.get('/atendimentos/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    Atendimento.buscaPorId(id, res);
   })
 
   app.post('/atendimentos', (req, res) => {
     const atendimento = req.body;
-    Atendimento.adicionar(atendimento);
-    res.send('Você está na rota de atendimentos e realizando um post');
+    Atendimento.adicionar(atendimento, res);
   })
 }
