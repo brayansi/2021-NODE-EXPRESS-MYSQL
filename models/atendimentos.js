@@ -49,7 +49,35 @@ class Atendimento {
       if(erro) {
         res.status(400).json(erro);
       } else {
-        res.status(201).json(result);
+        res.status(201).json({...data, id});
+      }
+    })
+  }
+
+  editar(id, data, res) {
+    
+    if(data.data) {
+      data.data= moment(data.data, 'DD/MM/YYYY').format('YYYY-MM-DD HH:MM:SS')
+    }
+
+    const sql = `UPDATE Atendimento set ? WHERE id=?`;
+    connection.query(sql, [data, id], (erro, result) => {
+      if(erro) {
+        res.status(400).json(erro);
+      } else {
+        res.status(201).json({...data, id});
+      }
+    })
+  }
+
+  deletar(id, res) {
+    const sql = `DELETE FROM Atendimento WHERE id=?`;
+
+    connection.query(sql, id, (erro, result) => {
+      if(erro) {
+        res.status(400).json(erro);
+      } else {
+        res.status(201).json({id});
       }
     })
   }
